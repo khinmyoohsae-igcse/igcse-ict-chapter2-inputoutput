@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IGCSE ICT - 2.1 Input Devices Quiz</title>
+    <style>
+        :root {
+            --bg-main: #090d16;
+            --bg-card: #131d31;
+            --border-color: #223354;
+            --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        header {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        header h1 {
+            color: var(--accent);
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .quiz-status {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .score-pill {
+            background-color: #0c4a6e;
+            color: #7dd3fc;
+            padding: 0.35rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid #0284c7;
+        }
+
+        .card {
+            width: 100%;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1.25rem;
+            padding: 2rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            background-color: #1e293b;
+            color: var(--text-main);
+            padding: 1rem 1.25rem;
+            border-radius: 0.85rem;
+            border: 1px solid #334155;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: #283548;
+            border-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .option-btn.correct {
+            background-color: #064e3b !important;
+            border-color: #059669 !important;
+            color: #ecfdf5 !important;
+        }
+
+        .option-btn.incorrect {
+            background-color: #7f1d1d !important;
+            border-color: #dc2626 !important;
+            color: #fee2e2 !important;
+        }
+
+        .feedback-box {
+            padding: 1.15rem;
+            border-radius: 0.85rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .feedback-box.correct-feedback {
+            background-color: #022c22;
+            border: 1px solid #047857;
+            color: #a7f3d0;
+        }
+
+        .feedback-box.incorrect-feedback {
+            background-color: #450a0a;
+            border: 1px solid #b91c1c;
+            color: #fecdd3;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #0f172a;
+            font-weight: 700;
+            padding: 0.85rem 1.75rem;
+            border-radius: 0.85rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .results-card {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .results-card h2 {
+            font-size: 2.25rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .results-card p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        footer {
+            background-color: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>IGCSE ICT Practice Quiz</h1>
+        <p>Topic 2.1 Input Devices (Keyboards, Keypads, Pointing Devices, Remotes, Joysticks & Wheels)</p>
+    </header>
+
+    <main>
+        <div class="quiz-status">
+            <span id="question-counter">Question 1 of 20</span>
+            <span id="score-display" class="score-pill">Score: 0</span>
+        </div>
+
+        <!-- Quiz Container -->
+        <div id="quiz-container" class="card">
+            <div id="question-box" class="question-text">
+                Loading question...
+            </div>
+
+            <div id="options-container" class="options-list">
+                <!-- Options populated dynamically -->
+            </div>
+
+            <div id="feedback-box" class="feedback-box hidden">
+                <!-- Feedback populated dynamically -->
+            </div>
+
+            <div style="display: flex; justify-content: flex-end;">
+                <button id="next-btn" onclick="nextQuestion()" class="btn-primary hidden">Next Question</button>
+            </div>
+        </div>
+
+        <!-- Results Container -->
+        <div id="results-container" class="card results-card hidden">
+            <h2>Quiz Completed! 🎉</h2>
+            <p id="final-score">You scored X out of 20</p>
+            <button onclick="restartQuiz()" class="btn-primary">Restart Quiz</button>
+        </div>
+    </main>
+
+    <footer>
+        IGCSE ICT Revision &bull; Input Devices and Their Uses
+    </footer>
+
+    <script>
+        const questions = [
+            {
+                question: "What is the most common manual input device used for entering text, numbers, and instructions into a computer system?",
+                options: [
+                    { text: "Keyboard", isCorrect: true, rationale: "The keyboard is the standard manual input device used for text and character entry." },
+                    { text: "Graph plotter", isCorrect: false, rationale: "A plotter is an output device." },
+                    { text: "Speaker", isCorrect: false, rationale: "A speaker is an audio output device." },
+                    { text: "Actuator", isCorrect: false, rationale: "An actuator is an output device that creates physical movement." }
+                ]
+            },
+            {
+                question: "What is a major health risk associated with prolonged, intensive use of a standard computer keyboard?",
+                options: [
+                    { text: "Repetitive Strain Injury (RSI) in the wrists and fingers", isCorrect: true, rationale: "Continuous typing can cause RSI, carpal tunnel syndrome, and muscle strain in the hands and wrists." },
+                    { text: "Permanent vision loss from screen refresh rates", isCorrect: false, rationale: "Vision strain can happen, but RSI is the primary repetitive keyboard injury." },
+                    { text: "Hearing damage from loud key clicking sounds", isCorrect: false, rationale: "Keyboards do not generate harmful noise decibels." },
+                    { text: "Electromagnetic radiation burns on fingertips", isCorrect: false, rationale: "Modern keyboards do not emit harmful radiation burns." }
+                ]
+            },
+            {
+                question: "What is a primary disadvantage of using a standard keyboard for data entry compared to Direct Data Entry (DDE) methods?",
+                options: [
+                    { text: "It is relatively slow and prone to human typing errors", isCorrect: true, rationale: "Manual keyboard entry is slower and more prone to typos than automated methods like OCR or barcode scanning." },
+                    { text: "It cannot be connected to modern USB computer ports", isCorrect: false, rationale: "Keyboards connect easily via USB or Bluetooth." },
+                    { text: "It requires an Analogue-to-Digital Converter to function", isCorrect: false, rationale: "Keyboards generate digital signals directly." },
+                    { text: "It consumes more electrical power than a desktop monitor", isCorrect: false, rationale: "Keyboards draw minimal power." }
+                ]
+            },
+            {
+                question: "Where are numeric keypads commonly used for secure data entry?",
+                options: [
+                    { text: "Automated Teller Machines (ATMs) for entering PIN numbers", isCorrect: true, rationale: "Numeric keypads are widely used in ATMs, POS terminals, and chip-and-PIN devices for secure PIN entry." },
+                    { text: "Professional CAD architectural 3D rendering", isCorrect: false, rationale: "CAD requires specialized mice and keyboards." },
+                    { text: "Flight simulation cockpits", isCorrect: false, rationale: "Flight simulation uses joysticks and control yokes." },
+                    { text: "Recording studio multichannel audio editing", isCorrect: false, rationale: "Audio editing uses specialized MIDI controllers and mice." }
+                ]
+            },
+            {
+                question: "What is an advantage of a numeric keypad over a full QWERTY keyboard in applications like point-of-sale (POS) terminals?",
+                options: [
+                    { text: "It is compact and allows rapid, one-handed entry of numbers and prices", isCorrect: true, rationale: "Numeric keypads are small, fast to operate with one hand, and take up less counter space." },
+                    { text: "It allows users to write long essays and academic reports quickly", isCorrect: false, rationale: "Keypads lack alphabetical keys, making essay writing impossible." },
+                    { text: "It includes built-in optical laser scanning for barcodes", isCorrect: false, rationale: "Barcode scanning requires a barcode reader." },
+                    { text: "It projects 3D holographic numbers into open space", isCorrect: false, rationale: "Keypads are standard physical buttons." }
+                ]
+            },
+            {
+                question: "Which of the following is classified as a standard pointing device?",
+                options: [
+                    { text: "Computer mouse", isCorrect: true, rationale: "A mouse is the most common pointing device used to navigate graphical user interfaces." },
+                    { text: "Microphone", isCorrect: false, rationale: "A microphone is an audio input device." },
+                    { text: "Barcode reader", isCorrect: false, rationale: "A barcode reader is a direct data entry scanning device." },
+                    { text: "Touch screen", isCorrect: false, rationale: "A touch screen is a dual input/output display device." }
+                ]
+            },
+            {
+                question: "What is the main advantage of a trackball over a traditional optical mouse?",
+                options: [
+                    { text: "It remains stationary on the desk, requiring less physical desk space and reducing arm movement", isCorrect: true, rationale: "A trackball stays in one place while the user rolls the top ball, making it ideal for limited desk spaces." },
+                    { text: "It automatically types documents without needing a keyboard", isCorrect: false, rationale: "Trackballs are pointing devices, not text entry tools." },
+                    { text: "It has unlimited wireless battery life that never runs out", isCorrect: false, rationale: "Wireless trackballs still require batteries or charging." },
+                    { text: "It projects high-definition laser holograms onto walls", isCorrect: false, rationale: "Trackballs do not project holograms." }
+                ]
+            },
+            {
+                question: "Where is a touchpad (trackpad) most commonly integrated as a built-in pointing device?",
+                options: [
+                    { text: "Laptop computers", isCorrect: true, rationale: "Touchpads are built directly into laptop wrist rests to replace standalone mice for portability." },
+                    { text: "Industrial manufacturing robotic welding arms", isCorrect: false, rationale: "Industrial robots use automated control systems." },
+                    { text: "Supermarket checkout conveyor belts", isCorrect: false, rationale: "Supermarkets use barcode scanners and POS terminals." },
+                    { text: "Server room network racks", isCorrect: false, rationale: "Server racks use specialized keyboards with built-in trackpads." }
+                ]
+            },
+            {
+                question: "What technology do standard television remote controls use to transmit signals to the TV receiver?",
+                options: [
+                    { text: "Infra-red (IR) light signals", isCorrect: true, rationale: "Remote controls typically emit invisible infra-red light pulses recognized by the appliance receiver." },
+                    { text: "High-voltage magnetic induction coils", isCorrect: false, rationale: "Remotes do not use magnetic induction." },
+                    { text: "Ultraviolet laser beams", isCorrect: false, rationale: "UV lasers are not used in home remotes." },
+                    { text: "Analogue audio sound frequencies", isCorrect: false, rationale: "Remotes transmit light, not sound waves." }
+                ]
+            },
+            {
+                question: "What is a key operational limitation of infra-red (IR) remote controls compared to radio frequency (RF) remotes?",
+                options: [
+                    { text: "They require a clear line of sight between the remote transmitter and the appliance receiver", isCorrect: true, rationale: "IR signals can be blocked by obstacles like furniture or walls, requiring direct line-of-sight." },
+                    { text: "They consume ten times more electrical power than desktop computers", isCorrect: false, rationale: "Remotes consume very little battery power." },
+                    { text: "They can only be used outdoors in direct sunlight", isCorrect: false, rationale: "Sunlight actually interferes with IR signals." },
+                    { text: "They require wired copper cables plugged into wall sockets", isCorrect: false, rationale: "Remotes are wireless battery-powered devices." }
+                ]
+            },
+            {
+                question: "What is the primary use of a joystick in computer applications?",
+                options: [
+                    { text: "Playing video games and controlling simulators (such as flight or machinery simulators)", isCorrect: true, rationale: "Joysticks allow smooth multi-directional control, making them ideal for gaming and flight simulators." },
+                    { text: "Typing business letters and academic essays", isCorrect: false, rationale: "Text entry requires a keyboard." },
+                    { text: "Scanning supermarket barcode labels at checkout", isCorrect: false, rationale: "Barcode scanning uses optical scanners." },
+                    { text: "Reading chip-and-PIN credit cards at retail counters", isCorrect: false, rationale: "Card reading uses smart card readers." }
+                ]
+            },
+            {
+                question: "How does a driving wheel input device function when used in racing simulator games or training software?",
+                options: [
+                    { text: "It simulates a real vehicle steering wheel, allowing precise rotational control combined with foot pedals for acceleration and braking", isCorrect: true, rationale: "Driving wheels mimic real steering feedback and connect with pedal units for realistic driving simulation." },
+                    { text: "It acts as a numeric keypad for banking ATM transactions", isCorrect: false, rationale: "Steering wheels are for steering control, not banking PINs." },
+                    { text: "It prints high-resolution architectural blueprints", isCorrect: false, rationale: "Blueprints are printed by plotters." },
+                    { text: "It measures greenhouse ambient air temperatures", isCorrect: false, rationale: "Temperature is measured by sensors." }
+                ]
+            },
+            {
+                question: "What is an advantage of using specialized controllers like joysticks or steering wheels over standard mice for gaming or simulation?",
+                options: [
+                    { text: "They provide a much more realistic, intuitive, and immersive control experience", isCorrect: true, rationale: "Specialized controllers match the physical motion of what is being simulated (flying a plane or driving a car)." },
+                    { text: "They eliminate all software bugs from the computer game", isCorrect: false, rationale: "Controllers cannot fix game software bugs." },
+                    { text: "They allow users to compile programming code faster than a keyboard", isCorrect: false, rationale: "They are unsuited for coding." },
+                    { text: "They never require batteries or USB cables", isCorrect: false, rationale: "Most joysticks and wheels plug in via USB or use batteries." }
+                ]
+            },
+            {
+                question: "Which input device would be best suited for controlling an industrial crane or heavy excavator simulator in a training facility?",
+                options: [
+                    { text: "Joystick", isCorrect: true, rationale: "Joysticks provide multi-axis directional control ideal for operating cranes, excavators, and heavy machinery." },
+                    { text: "Numeric keypad", isCorrect: false, rationale: "Keypads only enter numbers." },
+                    { text: "Infra-red remote control", isCorrect: false, rationale: "Remotes lack multi-axis directional levers." },
+                    { text: "Standard computer mouse", isCorrect: false, rationale: "A mouse lacks the physical multi-axis lever feel required for heavy machinery simulation." }
+                ]
+            },
+            {
+                question: "What is a disadvantage of using a standard computer mouse on uneven surfaces or when traveling?",
+                options: [
+                    { text: "It requires a flat, smooth surface (mouse mat or desk) to track movement accurately", isCorrect: true, rationale: "Optical mice need a flat reflective or patterned surface beneath them; bumpy or glass surfaces cause tracking failure." },
+                    { text: "It weighs more than a desktop computer tower", isCorrect: false, rationale: "Mice are very lightweight." },
+                    { text: "It requires high-voltage mains electricity", isCorrect: false, rationale: "Mice draw low power via USB or batteries." },
+                    { text: "It cannot be used with graphical user interfaces", isCorrect: false, rationale: "Mice are designed specifically for GUIs." }
+                ]
+            },
+            {
+                question: "How do optical mice track movement across a surface?",
+                options: [
+                    { text: "Using an LED or laser light paired with an optical sensor to take rapid snapshot images of the surface", isCorrect: true, rationale: "Optical mice shine light onto the surface and track changes between rapid image frames to determine cursor direction." },
+                    { text: "Using heavy metal rolling spheres that spin internal mechanical cogs", isCorrect: false, rationale: "Older mechanical mice used rubber balls, but modern mice are optical." },
+                    { text: "Using continuous analogue radio frequency sound waves", isCorrect: false, rationale: "This is not how optical tracking works." },
+                    { text: "Using a magnetic compass sensor inside the mouse", isCorrect: false, rationale: "Compasses track magnetic north, not desk movement." }
+                ]
+            },
+            {
+                question: "What is a key ergonomic benefit of ergonomic keyboards or vertical mice?",
+                options: [
+                    { text: "They are designed to reduce wrist strain, muscle fatigue, and the risk of Repetitive Strain Injury (RSI)", isCorrect: true, rationale: "Ergonomic hardware keeps hands and wrists in a more natural, neutral posture to prevent injury." },
+                    { text: "They increase the computer's CPU clock speed automatically", isCorrect: false, rationale: "Hardware ergonomics do not alter CPU speed." },
+                    { text: "They double the storage capacity of internal solid-state drives", isCorrect: false, rationale: "Storage capacity is unaffected." },
+                    { text: "They allow wireless internet connection over greater distances", isCorrect: false, rationale: "Wireless range depends on Wi-Fi/Bluetooth adapters." }
+                ]
+            },
+            {
+                question: "Why might a numeric keypad be preferred over a standard keyboard layout when entering financial accounting data into a spreadsheet?",
+                options: [
+                    { text: "The clustered arrangement of numbers and math symbols allows fast, touch-type entry of numerical data", isCorrect: true, rationale: "Financial data entry specialists can enter rows of numbers much faster using a dedicated numeric keypad cluster." },
+                    { text: "It allows editing of high-resolution video clips", isCorrect: false, rationale: "Video editing requires specialized editing software and mice." },
+                    { text: "It converts physical voice speech into written text", isCorrect: false, rationale: "Speech recognition handles voice transcription." },
+                    { text: "It scans barcodes automatically", isCorrect: false, rationale: "Barcode scanning requires an optical scanner." }
+                ]
+            },
+            {
+                question: "What is a common use of a remote control outside of home entertainment (TVs and sound systems)?",
+                options: [
+                    { text: "Controlling multimedia presentation slides in a boardroom or classroom", isCorrect: true, rationale: "Presenters use wireless handheld clickers/remotes to advance slides remotely during slideshows." },
+                    { text: "Operating industrial factory robotic welding assembly arms", isCorrect: false, rationale: "Industrial robots use automated controller consoles." },
+                    { text: "Entering personal bank account PINs at ATM kiosks", isCorrect: false, rationale: "ATMs use secure numeric keypads." },
+                    { text: "Typing daily corporate email messages", isCorrect: false, rationale: "Emails require a full keyboard." }
+                ]
+            },
+            {
+                question: "Which of the following input devices is best classified as a manual data entry device primarily used for pointing and selecting items on a screen?",
+                options: [
+                    { text: "Touchpad", isCorrect: true, rationale: "A touchpad is a manual pointing and selecting device commonly found on laptops." },
+                    { text: "Magnetic stripe reader", isCorrect: false, rationale: "A magnetic stripe reader is a Direct Data Entry (DDE) card scanning device." },
+                    { text: "Optical Character Reader", isCorrect: false, rationale: "An OCR scanner is a DDE text input device." },
+                    { text: "Barcode scanner", isCorrect: false, rationale: "A barcode scanner is a DDE automated input device." }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        const questionCounter = document.getElementById("question-counter");
+        const scoreDisplay = document.getElementById("score-display");
+        const questionBox = document.getElementById("question-box");
+        const optionsContainer = document.getElementById("options-container");
+        const feedbackBox = document.getElementById("feedback-box");
+        const nextBtn = document.getElementById("next-btn");
+        const quizContainer = document.getElementById("quiz-container");
+        const resultsContainer = document.getElementById("results-container");
+        const finalScore = document.getElementById("final-score");
+
+        function loadQuestion() {
+            answered = false;
+            feedbackBox.classList.add("hidden");
+            nextBtn.classList.add("hidden");
+
+            const q = questions[currentQuestionIndex];
+            questionCounter.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            scoreDisplay.textContent = `Score: ${score}`;
+            questionBox.textContent = q.question;
+
+            optionsContainer.innerHTML = "";
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.textContent = opt.text;
+                btn.onclick = () => selectOption(idx);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectOption(selectedIndex) {
+            if (answered) return;
+            answered = true;
+
+            const q = questions[currentQuestionIndex];
+            const allOptionButtons = optionsContainer.children;
+
+            q.options.forEach((opt, idx) => {
+                allOptionButtons[idx].disabled = true;
+                if (opt.isCorrect) {
+                    allOptionButtons[idx].classList.add("correct");
+                } else if (idx === selectedIndex) {
+                    allOptionButtons[idx].classList.add("incorrect");
+                }
+            });
+
+            const selectedOpt = q.options[selectedIndex];
+            feedbackBox.classList.remove("hidden");
+            if (selectedOpt.isCorrect) {
+                score++;
+                scoreDisplay.textContent = `Score: ${score}`;
+                feedbackBox.className = "feedback-box correct-feedback";
+                feedbackBox.innerHTML = `<strong>Correct!</strong> ${selectedOpt.rationale}`;
+            } else {
+                feedbackBox.className = "feedback-box incorrect-feedback";
+                feedbackBox.innerHTML = `<strong>Incorrect.</strong> ${selectedOpt.rationale}`;
+            }
+
+            if (currentQuestionIndex < questions.length - 1) {
+                nextBtn.textContent = "Next Question";
+            } else {
+                nextBtn.textContent = "View Results";
+            }
+            nextBtn.classList.remove("hidden");
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                quizContainer.classList.add("hidden");
+                resultsContainer.classList.remove("hidden");
+                finalScore.textContent = `You scored ${score} out of ${questions.length}`;
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            resultsContainer.classList.add("hidden");
+            quizContainer.classList.remove("hidden");
+            loadQuestion();
+        }
+
+        // Initialize quiz on load
+        loadQuestion();
+    </script>
+</body>
+</html>
